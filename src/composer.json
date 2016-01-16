@@ -1,0 +1,47 @@
+{
+  "name": "kragefolket-website",
+  "description": "Website for KFUM-Spejderne i Hellerup, Kragefolket",
+  "repositories": [{
+    "type": "package",
+    "package": {
+      "name": "wordpress",
+      "type": "webroot",
+      "version": "4.4.1",
+      "dist": {
+        "type": "zip",
+        "url": "http://da.wordpress.org/wordpress-4.4.1-da_DK.zip"
+      },
+      "require": {
+        "fancyguy/webroot-installer": "1.0.0"
+      }
+    }
+  }, {
+    "type": "composer",
+    "url": "http://wpackagist.org"
+  }],
+  "require": {
+    "php": ">=5.3.0",
+    "wordpress": "*",
+    "fancyguy/webroot-installer": "1.0.0",
+    "wpackagist-plugin/custom-sidebars": "*",
+    "wpackagist-plugin/redirection": "*",
+    "wpackagist-plugin/w3-total-cache": "*",
+    "wpackagist-plugin/relevanssi": "*",
+    "wpackagist-plugin/disable-comments": "*",
+    "wpackagist-plugin/wordpress-seo": "*",
+    "wpackagist-plugin/google-analytics-for-wordpress": "*",
+    "wpackagist-plugin/wp-mail-smtp": "*",
+    "wpackagist-plugin/wordpress-social-login": "*",
+
+    "wpackagist-theme/radiate": "*"
+  },
+  "extra": {
+    "webroot-dir": "vendorwp/wp",
+    "webroot-package": "wordpress",
+    "installer-paths": {
+      "vendorwp/wp-content/plugins/{$name}": ["type:wordpress-plugin"],
+      "vendorwp/wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "vendorwp/wp-content/themes/{$name}": ["type:wordpress-theme"]
+    }
+  }
+}

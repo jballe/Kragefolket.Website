@@ -1,0 +1,14 @@
+# Node
+**/node_modules
+
+# Composer
+src/vendor
+src/vendorwp/**
+
+# Local files
+/environment.json
+deploy/
+*.log
+cfg/environments/**
+db/environments/**
+tmp/

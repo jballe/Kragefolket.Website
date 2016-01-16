@@ -1,0 +1,67 @@
+/*
+Theme Name: Radiate Child
+Author: Jesper Balle
+Description: Tilpasninger til radiate til spejder
+Version: 1.1.2
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Template: radiate
+Text Domain: radiate
+Domain Path: /languages/
+Tags: light, white, two-columns, right-sidebar, responsive-layout, custom-header, custom-background, custom-menu, custom-colors, post-formats, sticky-post, threaded-comments, translation-ready
+*/
+
+@import url('../radiate/style.css');
+
+#parallax-bg {
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: 65px;
+}
+
+#masthead {
+  margin-bottom: 30%;
+}
+
+@media (min-width: 769px) and (max-width: 970px) {
+  #parallax-bg {
+    margin-top: 125px;
+  }
+
+  #masthead {
+    margin-bottom: 39% !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  #masthead {
+    margin-bottom: 27% !important;
+  }
+}
+
+
+a.more-link {
+  transition-duration: 0.6s;
+  transition-property: color, background-color
+}
+
+#featured_pages a.more-link:hover {
+  color: white !important;
+  background-color: #003333;
+}
+
+#featured_pages .page_text_container,
+article,
+.page-header, .page-content
+{
+  background-color: #fff;
+  opacity: 0.8;
+}
+
+.enhed.description {
+  font-size: 80%;
+}
+
+#primary.full-width {
+  width: 98%;
+}

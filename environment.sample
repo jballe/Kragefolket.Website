@@ -1,0 +1,39 @@
+{
+    "servertype": "iis",
+    "config": {
+        "hostname": "local.kragefolket.dk",
+        "wpdebug": true,
+        "db": {
+            "name": "kragefolketwp",
+            "user": "username",
+            "pass": "password",
+            "host": "localhost"
+        },
+        "keys": {
+            "AUTH_KEY":         "..................PUT REAL SALT STUFF IN HERE...................",
+            "SECURE_AUTH_KEY":  "..................PUT REAL SALT STUFF IN HERE...................",
+            "LOGGED_IN_KEY":    "..................PUT REAL SALT STUFF IN HERE...................",
+            "NONCE_KEY":        "..................PUT REAL SALT STUFF IN HERE...................",
+            "AUTH_SALT":        "..................PUT REAL SALT STUFF IN HERE...................",
+            "SECURE_AUTH_SALT": "..................PUT REAL SALT STUFF IN HERE...................",
+            "LOGGED_IN_SALT":   "..................PUT REAL SALT STUFF IN HERE...................",
+            "NONCE_SALT":       "..................PUT REAL SALT STUFF IN HERE...................",
+        },
+        
+        "widget": {
+            "header":           "Kragefolket links lokalt",
+            "gallerylink":      "http://ourgallery",
+            "galleryuser":      "username",
+            "gallerypass":      "password",
+            "fileslink":        "http://ourdrive",
+            "filesuser":        "username",
+            "filespass":        "password",
+            "maillink":         "http://ouremail",
+            "mailuser":         "username",
+            "mailpass":         "password",
+            "sharepoint":       "http://oursharepoint",
+            "sourcecode":       "https://github.com/jballe/Kragefolket.Website",
+            "siteconfig":       "https://bitbucket.org/oursecret-repository"
+        }
+    }
+}
