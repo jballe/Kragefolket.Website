@@ -10,6 +10,7 @@ require(path.resolve('bld/gulp-tasks/localdeploy.js'))(gulp);
 require(path.resolve('bld/gulp-tasks/template.js'))(gulp, process);
 require(path.resolve('bld/gulp-tasks/ftpdeploy.js'))(gulp);
 require(path.resolve('bld/gulp-tasks/watch.js'))(gulp);
+require(path.resolve('bld/gulp-tasks/performancetests.js'))(gulp);
 
 gulp.task('default', ['build']);
 gulp.task('build', ['localdeploy']);

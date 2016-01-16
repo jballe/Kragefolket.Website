@@ -6,6 +6,7 @@ src/vendor
 src/vendorwp/**
 
 # Local files
+output/**
 /environment.json
 deploy/
 *.log

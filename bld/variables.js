@@ -80,6 +80,9 @@ module.exports = {
 	db: {
 		dir: 'db'
 	},
+    reports: {
+        dir: 'output'
+    },
 	config: {
 		wpdebug: false,
 		wplanguage: 'da_DK',
