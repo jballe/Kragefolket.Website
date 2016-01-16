@@ -14,7 +14,10 @@ function krageplugin_adminlinks_widget() {
       <li><a href="<%= widget.maillink %>" onclick="window.open(this.href);return false;">Gmail til mailudsendelse og kontaktpersoner</a>
 	  <br />Brugernavn: <%= widget.mailuser %> &nbsp; Password:  <%= widget.mailpass %></li>
       <li><a href="<%= widget.sharepoint %>" onclick="window.open(this.href);return false;">Gammel sharepoint (der er nok ikke noget vigtigt l&aelig;ngere)</a></li>
-	  <li><a href="<%= widget.sourcecode %>">Kildekode til websitet</a> og <a href="<%= widget.siteconfig %>">konfiguration</a></li>
+	  <li style="font-size:85%">
+        <a href="<%= widget.sourcecode %>" onclick="window.open(this.href);return false;">Kildekode til websitet</a> og 
+        <a href="<%= widget.siteconfig %>" onclick="window.open(this.href);return false;">konfiguration</a> og 
+        <a href="<%= widget.siteci %>" onclick="window.open(this.href);return false;">ci</a></li>
 	  </ul>
       <p style="font-size:85%">Denne version er bygget på <%= build.machine %> build no. <%= build.counter %> commit no. <%= build.commit %></p>  
     </div>';

@@ -86,6 +86,10 @@ module.exports = {
 	},
 	config: {
 		wpdebug: false,
-		wplanguage: 'da_DK'
+		wplanguage: 'da_DK',
+        widget: {
+            sitesourcecode: 'https://github.com/jballe/Kragefolket.Website',
+            siteci: 'https://snap-ci.com/jballe/Kragefolket.Website/'
+        }
 	}
 };
