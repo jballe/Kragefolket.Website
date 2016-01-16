@@ -74,10 +74,6 @@ module.exports = {
 		languages: 'wp-content/languages',
 		keep: [
 			'wp-content/uploads',
-			'wp-content/languages',
-			'web.config',
-			'.htaccess',
-			'wp-config.php',
 			'robots.txt'
 		]
 	},
