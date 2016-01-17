@@ -53,12 +53,12 @@ module.exports = function(gulp) {
        
        psi(url).then(function (data) {
             console.log('');
-            console.log('Result for ' + url);
+            console.log('PageSpeed Result for ' + url);
             console.log('Speed score: ' + data.ruleGroups.SPEED.score);
             console.log('Usability score: ' + data.ruleGroups.USABILITY.score);
             console.log('');
             
-            writeData(data, path.resolve(vars.reports.dir), logfilename);
+            writeData(JSON.stringify(data), path.resolve(vars.reports.dir), logfilename);
             callback();
             
         }, function(err) {
@@ -89,9 +89,10 @@ module.exports = function(gulp) {
                 var url = viewObj.images[image];
                 console.log('Download ' + newfilename);
                 filesToDownload++;
-                new Download({mode: 755}).get(url).rename(newfilename).dest(outputdir).run(function(err) {
+                new Download().get(url).rename(newfilename).dest(outputdir).run(function(err) {
                     if(err) { console.log(err);}
                     filesDownloaded++;
+                    console.log('downloaded ' + filesDownloaded + ' of ' + filesToDownload + ' files' + filesDone ? '' : ' (stil adding files)');
                     if ( filesDownloaded == filesToDownload && filesDone) {
                         callback();
                     }
