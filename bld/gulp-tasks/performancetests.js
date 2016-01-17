@@ -40,7 +40,7 @@ module.exports = function(gulp) {
         var filename = folder + '/' + filename;
         fs.writeFileSync(filename, data);
     }
-
+    
     function pagespeed(relativePath, strategy, logFileName, callback) {
        var psi = require('psi');
        
@@ -67,15 +67,111 @@ module.exports = function(gulp) {
         });
         return;
     }
+    
+    function saveWebpageTest(results, logfilename, callback) {
 
-    gulp.task('pagespeed:frontpage-mobile', function(cb) {
-        pagespeed(makeAbsolutePath('/'), 'mobile', 'frontpage-mobile', cb);
-    })    
+        var path = require('path');
+        var Download = require('download');
+        var utils = require(path.resolve('bld/utils.js'));
 
-    gulp.task('pagespeed:frontpage-desktop', function(cb) {
-        pagespeed(makeAbsolutePath('/'), 'desktop', 'frontpage-desktop', cb);
-    })    
+        var vars = utils.vars();
+        
+        var outputdir = path.resolve(vars.reports.dir);
+        var datafilename = logfilename + '-data.json';
+        writeData(JSON.stringify(results.data, null, 4), outputdir, datafilename);
+            
+        var filesToDownload = 0, filesDownloaded = 0, filesDone = false;
+        
+        for(var view in results.data.runs['1']) {
+            var viewObj = results.data.runs['1'][view];
+            for(var image in viewObj.images) {
+                var newfilename = logfilename + '-' + view + '-' + image + '.png';
+                var url = viewObj.images[image];
+                console.log('Download ' + newfilename);
+                filesToDownload++;
+                new Download({mode: 755}).get(url).rename(newfilename).dest(outputdir).run(function(err) {
+                    if(err) { console.log(err);}
+                    filesDownloaded++;
+                    if ( filesDownloaded == filesToDownload && filesDone) {
+                        callback();
+                    }
+                });
+            }
+        }
+        filesDone = true;
+    }
+    
+    function webpagetest(relativePath, logfilename, callback) {
 
-    gulp.task('performancetests-remote', ['pagespeed:frontpage-mobile', 'pagespeed:frontpage-desktop']);    
+        // This is only for testing...        
+        //var oldData = JSON.parse(require('fs').readFileSync(require('path').resolve('output/webpagetest-frontpage-data.json')).toString());
+        //saveWebpageTest({ "data": oldData}, logfilename, callback);
+        //return; 
+     
+        var path = require('path');
+        var WebPageTest = require('webpagetest');
+        var utils = require(path.resolve('bld/utils.js'));
+
+        var env = utils.environment();
+
+        var location = 'ec2-eu-west-1:Chrome'; // London, Chrome
+        var url = makeAbsolutePath(relativePath);
+        var apikey = env.config.keys.webpagetest;
+        
+        var wpt = new WebPageTest('www.webpagetest.org', apikey);
+        var config = {
+            location: location,
+        };
+        wpt.runTest(url, config, function(err, data) {
+            if(err) {
+                console.log(err);
+                callback();
+                return;
+            }
+            
+            var testId = data.data.testId;
+            console.log('webpagetest id: ' + testId);
+
+            var checkStatus = function() {
+                wpt.getTestStatus(testId, function(err, data) {
+                    console.log('webpagetest: ' + data.data.statusText);
+                    if(!data || !data.data.completeTime) {
+                        return setTimeout(checkStatus, 1000);
+                    }
+                    
+                    wpt.getTestResults(testId, function(err, data) {
+                        saveWebpageTest(data, logfilename, callback);
+                    });
+                });
+            };
+            
+            checkStatus();
+        }); 
+    }
+
+    function createGulpTasks(key, relativePath) {
+        
+        var wptname = 'webpagetest:' + key;
+        gulp.task(wptname, function(cb) {
+            webpagetest(relativePath, 'webpagetest-' + key, cb);
+        });    
+
+        var psiDesktopName = 'pagespeed:'+key+'-desktop';
+        gulp.task(psiDesktopName, function(cb) {
+            pagespeed(relativePath, 'desktop', 'pagespeed' + key + '-desktop', cb);
+        });    
+
+        var psiMobileName = 'pagespeed:' + key +'-mobile';
+        gulp.task(psiMobileName, function(cb) {
+            pagespeed(relativePath, 'mobile', 'pagespeed' +key + '-desktop', cb);
+        });
+        var name = 'performance-remote-' + key;
+        gulp.task(name, [wptname, psiDesktopName, psiMobileName]);
+        return name;
+    }    
+    
+    createGulpTasks
+
+    gulp.task('performancetests-remote', [createGulpTasks('frontpage', '/'), createGulpTasks('bliv-spejder', '/bliv-spejder'), createGulpTasks('kragekaldet', '/kragekaldet')]);    
 
 };
