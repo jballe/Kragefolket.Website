@@ -47,7 +47,7 @@ module.exports = function(gulp) {
        var path = require('path');
        var vars = require(path.resolve('bld/utils.js')).vars();
 
-       var url = makeAbsolutePath('/');
+       var url = makeAbsolutePath(relativePath);
        var logfilename = logFileName + '.json'; 
        console.log('Starting PageSpeed Insights for ' + url + ' writing result to ' + vars.reports.dir + '/' + logfilename);
        
