@@ -170,6 +170,7 @@ module.exports = function(gulp) {
         gulp.task(psiMobileName, function(cb) {
             pagespeed(relativePath, 'mobile', 'pagespeed' +key + '-desktop', cb);
         });
+        
         var name = 'performance-remote-' + key;
         gulp.task(name, [wptname, psiDesktopName, psiMobileName]);
         return name;
@@ -177,6 +178,6 @@ module.exports = function(gulp) {
     
     createGulpTasks
 
-    gulp.task('performancetests-remote', [createGulpTasks('frontpage', '/'), createGulpTasks('bliv-spejder', '/bliv-spejder'), createGulpTasks('kragekaldet', '/kragekaldet')]);    
+    gulp.task('performancetests-remote', [createGulpTasks('frontpage', '/'), createGulpTasks('bliv-spejder', '/bliv-spejder/'), createGulpTasks('kragekaldet', '/kragekaldet/')]);    
 
 };
