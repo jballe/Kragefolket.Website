@@ -117,6 +117,10 @@ module.exports = function(gulp) {
         var location = 'ec2-eu-west-1:Chrome'; // London, Chrome
         var url = makeAbsolutePath(relativePath);
         var apikey = env.config.keys.webpagetest;
+        if(!apikey) {
+            console.log('please specify apikey for webpagetest in environment.json (config.keys.webpagetest)');
+            return;
+        }
         
         var wpt = new WebPageTest('www.webpagetest.org', apikey);
         var config = {
