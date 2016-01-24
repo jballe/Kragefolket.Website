@@ -99,15 +99,27 @@ module.exports = function(gulp) {
                 });
             }
         }
+        
         filesDone = true;
     }
     
-    function webpagetest(relativePath, logfilename, callback) {
+    function webpagetestlocalfile(logfilename, callback) {
+        var path = require('path');
+        var fs = require('fs');
+        
+        var utils = require(path.resolve('bld/utils.js'));
+        var vars = utils.vars();
 
-        // This is only for testing...        
-        //var oldData = JSON.parse(require('fs').readFileSync(require('path').resolve('output/webpagetest-frontpage-data.json')).toString());
-        //saveWebpageTest({ "data": oldData}, logfilename, callback);
-        //return; 
+        var outputdir = path.resolve(vars.reports.dir);
+        var datafilename = logfilename + '-data.json';
+        var filepath = outputdir + '/' + datafilename;
+        var fullpath = path.resolve(filepath);
+        
+        var oldData = JSON.parse(fs.readFileSync(fullpath).toString());
+        saveWebpageTest({ "data": oldData}, logfilename, callback);
+    }
+    
+    function webpagetest(relativePath, logfilename, callback) {
      
         var path = require('path');
         var WebPageTest = require('webpagetest');
@@ -145,6 +157,13 @@ module.exports = function(gulp) {
                     }
                     
                     wpt.getTestResults(testId, function(err, data) {
+                        var utils = require(path.resolve('bld/utils.js'));
+                        var vars = utils.vars();
+
+                        var outputdir = path.resolve(vars.reports.dir);
+                        var datafilename = logfilename + '-data.json';
+                        writeData(JSON.stringify(data.data, null, 4), outputdir, datafilename);
+
                         saveWebpageTest(data, logfilename, callback);
                     });
                 });
@@ -175,9 +194,15 @@ module.exports = function(gulp) {
         gulp.task(name, [wptname, psiDesktopName, psiMobileName]);
         return name;
     }    
-    
-    createGulpTasks
 
-    gulp.task('performancetests-remote', [createGulpTasks('frontpage', '/'), createGulpTasks('bliv-spejder', '/bliv-spejder/'), createGulpTasks('kragekaldet', '/kragekaldet/')]);    
+    gulp.task('pagespeed-retry', function(cb) {
+          webpagetestlocalfile('/', cb);
+    });
+
+    gulp.task('performancetests-remote', [
+        createGulpTasks('frontpage', '/'), 
+        createGulpTasks('bliv-spejder', '/bliv-spejder/'), 
+        createGulpTasks('kragekaldet', '/kragekaldet/')
+        ]);    
 
 };
