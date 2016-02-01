@@ -3,16 +3,16 @@
 
 function DoRestore
 {
-    Write-Host "Install Grunt-cli" -ForegroundColor Gray
-    & npm install grunt-cli -g
+    Write-Host "Install Gulp-cli" -ForegroundColor Gray
+    & npm install gulp-cli -g
     Write-Host "Install node packages" -ForegroundColor Gray
     & npm install
 
     IncludeMysqlInPath
     IncludeGnuwinInPath
 
-    Write-Host "Run setup using grunt" -ForegroundColor Gray
-    & grunt getup
+    Write-Host "Run setup using gulp" -ForegroundColor Gray
+    & gulp getup
 
     IisSetup
 }
